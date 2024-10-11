@@ -3,3 +3,5 @@ pymupdf
 fuzzywuzzy
 openai
 streamlit
+elevenlabs
+langchain
