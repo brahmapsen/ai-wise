@@ -1,0 +1,6 @@
+env/
+.env
+copy/
+data/
+__pycache__
+output/
