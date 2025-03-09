@@ -1,22 +1,21 @@
-# BetterJobsAI
+# AI-WISE
 
-BetterJobsAI matches candidate multi-modal artifacts with job requirements and company culture
-using Agentic work flow, open AI O1 model
+Uses Agentic AI to streamline workflow and improve business productivity,
 
 - add OPENAI_API_KEY and TWELVELABS_API_KEY, XI_API_KEY to ".env" file
 
 # create virtual env "env"
 
 python -m venv env
-
-# Load libraries
-
+source ./env/bin/activate
 pip install -r requirements.txt
 
-## if virtual env already created
-
-source env/bin/activate
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('punkt_tab')
 
 # Run the app
 
-streamlit run app.py
+--streamlit run jobs.py
+
+streamlit run storyboard.py

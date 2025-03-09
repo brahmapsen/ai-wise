@@ -3,5 +3,9 @@ pymupdf
 fuzzywuzzy
 openai
 streamlit
-elevenlabs
-langchain
+# elevenlabs
+# langchain
+nltk
+scikit-learn
+sentence-transformers
+

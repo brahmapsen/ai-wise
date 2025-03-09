@@ -1,9 +1,11 @@
-import fitz  # PyMuPDF
-from fuzzywuzzy import fuzz
+
 import os
 import openai
 from openai import OpenAI
 from dotenv import load_dotenv
+
+import fitz  # PyMuPDF
+from fuzzywuzzy import fuzz
 
 
 load_dotenv()
@@ -23,6 +25,7 @@ def getSpeechToText(filename):
     print(transcription.text)
     return transcription.text
 
+
 # Function to extract text from a PDF
 def extract_text_from_pdf(pdf_path):
     if not os.path.exists(pdf_path):
@@ -36,18 +39,13 @@ def extract_text_from_pdf(pdf_path):
     return text
 
 
-def find_resume_match_percent(job_req_stream, resume_stream):
-    ## first find the matching Job requistions 
-    # job_req_content = job_req_stream.read()  #"data/job_desc.pdf"
-    # resume_content = resume_stream.read()  #"data/resume.pdf"
-    # similarity_index = compare_pdfs(job_req_content, resume_content)
-    similarity_index = compare_pdfs(job_req_stream, resume_stream)
-    return similarity_index
 
 def generate_cover_letter_text(job_req_stream, resume_stream):
     resume_text = extract_text_from_pdf(job_req_stream) #"data/resume.pdf")
     job_requisition = extract_text_from_pdf(resume_stream) ##"data/job_desc.pdf")
-    return generate_cover_letter(resume_text, job_requisition)
+    print(len(resume_text))
+    print(len(job_requisition))
+    return "Thisiscoverletter:"#generate_cover_letter(resume_text, job_requisition)
 
 #
 ##  Generate cover letter through OPENAI
@@ -77,21 +75,7 @@ def generate_cover_letter(resume_text, job_requisition):
     # return completion.choices[0].message['content'].strip()
 
 
-def compare_pdfs(resume_path, job_desc_path):
-    if not resume_path or not job_desc_path:
-        return "Error: Both file paths must be provided"
 
-    # Extract text from the PDF files using the provided paths
-    resume_text = extract_text_from_pdf(resume_path)
-    job_desc_text = extract_text_from_pdf(job_desc_path)
-
-    if resume_text is None or job_desc_text is None:
-        return "Error: One or both files not found"
-
-    # Compare the two texts using FuzzyWuzzy
-    similarity_ratio = fuzz.ratio(resume_text, job_desc_text)
-
-    return similarity_ratio
 
 
 

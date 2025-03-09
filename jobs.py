@@ -5,7 +5,8 @@ import logging
 # Import from 3rd party libraries
 import streamlit as st
 
-from _openai import generate_cover_letter_text, find_resume_match_percent
+from _openai import generate_cover_letter_text
+from _fileCompare import find_resume_match_percent
 
 # Configure logger
 logging.basicConfig(format="\n%(asctime)s\n%(message)s", level=logging.INFO, force=True)
@@ -22,8 +23,8 @@ if "visibility" not in st.session_state:
 if "job_desc" not in st.session_state:
     st.session_state.job_desc = ""
 
-if "resume_fpath" not in st.session_state:
-    st.session_state.resume_fpath = ""
+if "resume_file" not in st.session_state:
+    st.session_state.resume_file = ""
 
 if "cover_letter" not in st.session_state:
     st.session_state.cover_letter = "Cover letter will be here"
@@ -65,24 +66,25 @@ if cand_resume is not None:
     res_filename = "output/" + cand_resume.name
     with open(res_filename, "wb") as f:
         f.write(cand_resume.getbuffer())
-    st.session_state.resume_fpath = res_filename
+    st.session_state.resume_file = res_filename
 
 
 def test_filestream():
     # Example: Read and print the content of the file stream
-    content = job_req.read()
+    with open(st.session_state.job_desc, "r") as f:
+        content = f.read()
     st.write("File content size:", len(content))  # Process content as needed
     
 def create_cover_letter():
-    cover_letter = generate_cover_letter_text(st.session_state.job_desc, st.session_state.resume_fpath)
+    cover_letter = generate_cover_letter_text(st.session_state.job_desc, st.session_state.resume_file)
     st.session_state.cover_letter = cover_letter
 
 def find_resume_match():
-    # res_match_prcnt = find_resume_match_percent(job_req, cand_resume)
-    res_match_prcnt = find_resume_match_percent( st.session_state.job_desc, st.session_state.resume_fpath)
+    # test_filestream()
+    res_match_prcnt = find_resume_match_percent( st.session_state.job_desc, st.session_state.resume_file)
     st.session_state.resume_match = res_match_prcnt
 
-st.text_input("Resume Match %: ", st.session_state.resume_match)
+st.text_input("Resume match %: ", st.session_state.resume_match)
 
 # # Create a column layout
 col1, col2 = st.columns(2)
